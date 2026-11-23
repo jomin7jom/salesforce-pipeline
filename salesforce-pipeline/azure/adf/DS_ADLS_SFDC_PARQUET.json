@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "description": "Parquet files in jominsdevadls/salesforce-raw (picked up by Snowpipe)",
+    "linkedServiceName": { "referenceName": "LS_ADLS_GEN2", "type": "LinkedServiceReference" },
+    "parameters": {
+      "folderPath": { "type": "string" },
+      "fileName":   { "type": "string" }
+    },
+    "type": "Parquet",
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobFSLocation",
+        "fileSystem": "salesforce-raw",
+        "folderPath": { "value": "@dataset().folderPath", "type": "Expression" },
+        "fileName":   { "value": "@dataset().fileName",   "type": "Expression" }
+      },
+      "compressionCodec": "snappy"
+    },
+    "schema": []
+  }
+}

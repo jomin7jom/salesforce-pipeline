@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "description": "Salesforce Account -> ADLS salesforce-raw/account/yyyy/MM/dd/*.parquet (Snowpipe auto-ingests)",
+    "parameters": {
+      "soqlQuery": {
+        "type": "string",
+        "defaultValue": "SELECT Id, Name, Industry, Type, AnnualRevenue, NumberOfEmployees, BillingCity, BillingCountry, Description, CreatedDate, LastModifiedDate FROM Account WHERE Name LIKE 'SNOWPIPE-TEST-%'"
+      }
+    },
+    "activities": [
+      {
+        "name": "Copy_Account_To_ADLS",
+        "type": "Copy",
+        "policy": { "timeout": "0.01:00:00", "retry": 1, "retryIntervalInSeconds": 60 },
+        "inputs":  [ { "referenceName": "DS_SFDC_ACCOUNT", "type": "DatasetReference" } ],
+        "outputs": [
+          {
+            "referenceName": "DS_ADLS_SFDC_PARQUET",
+            "type": "DatasetReference",
+            "parameters": {
+              "folderPath": {
+                "value": "@concat('account/', formatDateTime(pipeline().TriggerTime, 'yyyy/MM/dd'))",
+                "type": "Expression"
+              },
+              "fileName": {
+                "value": "@concat('account_', formatDateTime(pipeline().TriggerTime, 'yyyyMMdd_HHmmss'), '_', pipeline().RunId, '.parquet')",
+                "type": "Expression"
+              }
+            }
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SalesforceV2Source",
+            "SOQLQuery": { "value": "@pipeline().parameters.soqlQuery", "type": "Expression" },
+            "includeDeletedObjects": false
+          },
+          "sink": {
+            "type": "ParquetSink",
+            "storeSettings":  { "type": "AzureBlobFSWriteSettings" },
+            "formatSettings": { "type": "ParquetWriteSettings" }
+          },
+          "enableStaging": false,
+          "translator": { "type": "TabularTranslator", "typeConversion": true }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+-- 04_validate.sql  : read-only checks
+USE ROLE ACCOUNTADMIN;
+USE WAREHOUSE SNOWFLAKE_LEARNING_WH;
+USE SCHEMA LEARNING_DB.DEMO;
+
+SELECT SYSTEM$PIPE_STATUS('SFDC_ACCOUNT_PIPE');   -- executionState should be RUNNING
+
+SELECT file_name, status, row_count, row_parsed, first_error_message, last_load_time
+FROM TABLE(INFORMATION_SCHEMA.COPY_HISTORY(
+  TABLE_NAME => 'SFDC_ACCOUNT_RAW',
+  START_TIME => DATEADD(hour, -24, CURRENT_TIMESTAMP())))
+ORDER BY last_load_time DESC;
+
+SELECT _SRC_FILE, COUNT(*) AS rows_loaded, MAX(_LOADED_AT) AS last_loaded
+FROM SFDC_ACCOUNT_RAW GROUP BY 1 ORDER BY 3 DESC;

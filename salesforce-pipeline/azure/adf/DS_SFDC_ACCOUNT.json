@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "description": "Salesforce Account object (source for Snowpipe pipeline)",
+    "linkedServiceName": { "referenceName": "LS_Salesforce_Lab", "type": "LinkedServiceReference" },
+    "type": "SalesforceV2Object",
+    "typeProperties": { "objectApiName": "Account" },
+    "schema": []
+  }
+}
