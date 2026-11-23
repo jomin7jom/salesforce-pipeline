@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "description": "Key Vault for pipeline secrets (ADF managed identity has Key Vault Secrets User)",
+    "type": "AzureKeyVault",
+    "typeProperties": { "baseUrl": "https://kv-jominslearning-sfdc.vault.azure.net/" }
+  }
+}
