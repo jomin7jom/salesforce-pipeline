@@ -8,10 +8,11 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["SFDC_ACCOUNT","VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"]
+annotation PBI_QueryOrder = ["SFDC_ACCOUNT","VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT","SFDC_OPPORTUNITY"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table SFDC_ACCOUNT
 ref table VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT
+ref table SFDC_OPPORTUNITY
 

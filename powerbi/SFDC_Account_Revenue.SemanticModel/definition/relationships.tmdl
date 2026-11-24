@@ -1,0 +1,4 @@
+relationship de0c5f3c-03b3-407f-b991-13d55848953d
+	fromColumn: SFDC_OPPORTUNITY.ACCOUNT_ID
+	toColumn: SFDC_ACCOUNT.ID
+

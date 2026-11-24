@@ -1,0 +1,133 @@
+table SFDC_OPPORTUNITY
+	lineageTag: cf69815c-9048-4f9c-abf6-5d81d61bbf89
+
+	measure 'Opportunity Amount' = SUM ( SFDC_OPPORTUNITY[AMOUNT] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 8e7c895b-3b49-4cc2-8942-5ccc4d299d87
+
+	measure 'Opportunity Count' = COUNTROWS ( SFDC_OPPORTUNITY )
+		formatString: #,0
+		lineageTag: cb063120-cdc9-42e9-a763-fbd068e1f1f1
+
+	measure 'Open Pipeline Amount' = CALCULATE ( [Opportunity Amount], SFDC_OPPORTUNITY[IS_CLOSED] = FALSE () )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: efb53ac8-eb93-4442-a3fb-c568c9a7c5df
+
+	measure 'Won Amount' = CALCULATE ( [Opportunity Amount], SFDC_OPPORTUNITY[IS_WON] = TRUE () )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: de22ce4d-bf04-46cb-b041-f9f467291f52
+
+	measure 'Total Quantity' = SUM ( SFDC_OPPORTUNITY[QUANTITY] )
+		formatString: #,0
+		lineageTag: 71a1d0a7-a596-4e7a-ac0f-794fc69b40b5
+
+	column ID
+		dataType: string
+		lineageTag: 44b8851d-7628-4578-b2e6-0e079fc4691f
+		summarizeBy: none
+		sourceColumn: ID
+
+	column NAME
+		dataType: string
+		lineageTag: 11bc8a20-101b-46b0-8dc7-c5022acc8028
+		summarizeBy: none
+		sourceColumn: NAME
+
+	column ACCOUNT_ID
+		dataType: string
+		isHidden
+		lineageTag: cc594d44-c0ef-4be5-ad8f-9e2471b5d951
+		summarizeBy: none
+		sourceColumn: ACCOUNT_ID
+
+	column AMOUNT
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 907bb84a-f63b-4f71-a198-19247b6341ac
+		summarizeBy: sum
+		sourceColumn: AMOUNT
+
+	column QUANTITY
+		dataType: double
+		formatString: #,0
+		lineageTag: 2290f53f-5bbb-4a43-a38a-573ed01516b2
+		summarizeBy: sum
+		sourceColumn: QUANTITY
+
+	column CLOSE_DATE
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b44b7956-02c6-4f04-bd9d-a20fb80b9e64
+		summarizeBy: none
+		sourceColumn: CLOSE_DATE
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column STAGE_NAME
+		dataType: string
+		lineageTag: a986ef63-d4ff-4afa-93b6-78da021b75b6
+		summarizeBy: none
+		sourceColumn: STAGE_NAME
+
+	column PROBABILITY
+		dataType: double
+		formatString: 0
+		lineageTag: 7a1fe72e-7fef-4915-a852-82e0725fb8c9
+		summarizeBy: none
+		sourceColumn: PROBABILITY
+
+	column TYPE
+		dataType: string
+		lineageTag: 73389b23-ae7d-47cc-83c7-8af6f369e02b
+		summarizeBy: none
+		sourceColumn: TYPE
+
+	column LEAD_SOURCE
+		dataType: string
+		lineageTag: a4292611-9086-425d-be4b-1ce7992d655d
+		summarizeBy: none
+		sourceColumn: LEAD_SOURCE
+
+	column IS_CLOSED
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6a212fd4-f900-437b-95b1-7cdd13c93198
+		summarizeBy: none
+		sourceColumn: IS_CLOSED
+
+	column IS_WON
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c410a8d1-7964-4c37-92bc-d3ee23baecbf
+		summarizeBy: none
+		sourceColumn: IS_WON
+
+	column CREATED_AT_UTC
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: 9ec55500-8e48-4c46-8074-7c8d33419edd
+		summarizeBy: none
+		sourceColumn: CREATED_AT_UTC
+
+	column LAST_MODIFIED_AT_UTC
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: c665bd6e-2694-43bf-8210-9bf0d3ce7009
+		summarizeBy: none
+		sourceColumn: LAST_MODIFIED_AT_UTC
+
+	partition SFDC_OPPORTUNITY = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases("NRZVPQQ-FV30704.snowflakecomputing.com", "SNOWFLAKE_LEARNING_WH", [Role = "SFDC_REPORT_ROLE"]),
+				    LEARNING_DB_Database = Source{[Name = "LEARNING_DB", Kind = "Database"]}[Data],
+				    DEMO_Schema = LEARNING_DB_Database{[Name = "DEMO", Kind = "Schema"]}[Data],
+				    SFDC_OPPORTUNITY_Table = DEMO_Schema{[Name = "SFDC_OPPORTUNITY", Kind = "Table"]}[Data],
+				    Selected = Table.SelectColumns(SFDC_OPPORTUNITY_Table, {"ID", "NAME", "ACCOUNT_ID", "AMOUNT", "QUANTITY", "CLOSE_DATE", "STAGE_NAME", "PROBABILITY", "TYPE", "LEAD_SOURCE", "IS_CLOSED", "IS_WON", "CREATED_AT_UTC", "LAST_MODIFIED_AT_UTC"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"AMOUNT", type number}, {"QUANTITY", type number}, {"PROBABILITY", type number}, {"CLOSE_DATE", type date}, {"IS_CLOSED", type logical}, {"IS_WON", type logical}, {"CREATED_AT_UTC", type datetime}, {"LAST_MODIFIED_AT_UTC", type datetime}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

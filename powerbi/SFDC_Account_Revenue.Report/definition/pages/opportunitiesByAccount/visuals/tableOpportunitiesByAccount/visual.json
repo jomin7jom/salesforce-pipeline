@@ -1,0 +1,178 @@
+{
+    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+    "name":  "tableOpportunitiesByAccount",
+    "position":  {
+                     "x":  650,
+                     "y":  110,
+                     "z":  6,
+                     "width":  610,
+                     "height":  590,
+                     "tabOrder":  6
+                 },
+    "visual":  {
+                   "visualType":  "tableEx",
+                   "query":  {
+                                 "queryState":  {
+                                                    "Values":  {
+                                                                   "projections":  [
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Column":  {
+                                                                                                                        "Expression":  {
+                                                                                                                                           "SourceRef":  {
+                                                                                                                                                             "Entity":  "SFDC_ACCOUNT"
+                                                                                                                                                         }
+                                                                                                                                       },
+                                                                                                                        "Property":  "NAME"
+                                                                                                                    }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "NAME",
+                                                                                           "active":  true,
+                                                                                           "queryRef":  "SFDC_ACCOUNT.NAME"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Column":  {
+                                                                                                                        "Expression":  {
+                                                                                                                                           "SourceRef":  {
+                                                                                                                                                             "Entity":  "SFDC_ACCOUNT"
+                                                                                                                                                         }
+                                                                                                                                       },
+                                                                                                                        "Property":  "BILLING_CITY"
+                                                                                                                    }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "BILLING_CITY",
+                                                                                           "active":  true,
+                                                                                           "queryRef":  "SFDC_ACCOUNT.BILLING_CITY"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Column":  {
+                                                                                                                        "Expression":  {
+                                                                                                                                           "SourceRef":  {
+                                                                                                                                                             "Entity":  "SFDC_ACCOUNT"
+                                                                                                                                                         }
+                                                                                                                                       },
+                                                                                                                        "Property":  "INDUSTRY"
+                                                                                                                    }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "INDUSTRY",
+                                                                                           "active":  true,
+                                                                                           "queryRef":  "SFDC_ACCOUNT.INDUSTRY"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Opportunity Count"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Opportunity Count",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Opportunity Count"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Opportunity Amount"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Opportunity Amount",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Opportunity Amount"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Open Pipeline Amount"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Open Pipeline Amount",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Open Pipeline Amount"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Won Amount"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Won Amount",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Won Amount"
+                                                                                       },
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Total Quantity"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Total Quantity",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Total Quantity"
+                                                                                       }
+                                                                                   ]
+                                                               }
+                                                },
+                                 "sortDefinition":  {
+                                                        "sort":  [
+                                                                     {
+                                                                         "field":  {
+                                                                                       "Measure":  {
+                                                                                                       "Expression":  {
+                                                                                                                          "SourceRef":  {
+                                                                                                                                            "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                        }
+                                                                                                                      },
+                                                                                                       "Property":  "Opportunity Amount"
+                                                                                                   }
+                                                                                   },
+                                                                         "direction":  "Descending"
+                                                                     }
+                                                                 ],
+                                                        "isDefaultSort":  true
+                                                    }
+                             },
+                   "visualContainerObjects":  {
+                                                  "title":  [
+                                                                {
+                                                                    "properties":  {
+                                                                                       "text":  {
+                                                                                                    "expr":  {
+                                                                                                                 "Literal":  {
+                                                                                                                                 "Value":  "'Opportunities per Account'"
+                                                                                                                             }
+                                                                                                             }
+                                                                                                },
+                                                                                       "show":  {
+                                                                                                    "expr":  {
+                                                                                                                 "Literal":  {
+                                                                                                                                 "Value":  "true"
+                                                                                                                             }
+                                                                                                             }
+                                                                                                }
+                                                                                   }
+                                                                }
+                                                            ]
+                                              }
+               }
+}

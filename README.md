@@ -33,6 +33,21 @@ Nothing reuses the `snowflake-lab` container, `LAB_AZURE_STORAGE_INT` or `ERP_RE
 
 Folder convention in the container: `salesforce-raw/<object>/...parquet`.
 
+### Opportunity (second object, own container)
+
+| Layer      | Object                         | Name                                   | New? |
+|------------|--------------------------------|----------------------------------------|------|
+| Salesforce | Daily test data                | `salesforce/02_create_daily_opportunities.apex` (`SNOWPIPE-TEST-OPP-*`, 20+ per run) | new |
+| Azure      | Container                      | `salesforce-opportunity-raw`           | new  |
+| Azure      | Event Grid subscription        | `snowpipe-sfdc-opp-blob-created` (into the same `snowpipe-events` queue) | new |
+| ADF        | Datasets / pipeline / trigger  | `DS_SFDC_OPPORTUNITY`, `DS_ADLS_SFDC_OPPORTUNITY_PARQUET` / `PL_SFDC_TO_ADLS_OPPORTUNITY` / `TR_SFDC_OPPORTUNITY_WEEKDAYS_1015AM_PT` | new |
+| Snowflake  | Storage integration / stage    | `SFDC_OPP_ADLS_STORAGE_INT` / `SFDC_OPP_ADLS_STAGE` (notification integration shared) | new |
+| Snowflake  | Raw table / pipe               | `SFDC_OPPORTUNITY_RAW` / `SFDC_OPPORTUNITY_PIPE` | new |
+| Snowflake  | Reporting target / stream / proc | `SFDC_OPPORTUNITY` / `SFDC_OPPORTUNITY_RAW_STREAM` / `SP_MERGE_SFDC_OPPORTUNITY()` | new |
+| Power BI   | Table, relationship, page      | `SFDC_OPPORTUNITY[ACCOUNT_ID]` -> `SFDC_ACCOUNT[ID]`; page *Opportunities by Account* (`powerbi/02_opportunities_page.md`) | new |
+
+Build order: `azure/03_opportunity_pipeline.md`. Snowflake scripts `08`–`12`.
+
 ## End-to-end flow
 
 ```
@@ -79,7 +94,8 @@ To run it locally before pushing, from the repo root: `python scripts/validate_r
 
 ## Daily operations
 
-The pipeline runs Mon–Fri at 10:00 Pacific. Power BI refreshes at 11:00 Pacific.
+The pipeline runs Mon–Fri at 10:00 Pacific (Account) and 10:15 Pacific (Opportunity). Power BI refreshes at 11:00 Pacific.
+To add new test Opportunities, run `salesforce/02_create_daily_opportunities.apex` before 10:15 PT.
 
 | To… | Go to |
 |---|---|
