@@ -1,0 +1,86 @@
+table SFDC_ACCOUNT
+	lineageTag: 718da7ee-5db0-44ac-9bff-44cf38ff9388
+
+	measure 'Total Revenue' = SUM ( SFDC_ACCOUNT[ANNUAL_REVENUE] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 4920d4ff-4408-43e7-abe9-f6c12054173f
+
+	column ID
+		dataType: string
+		lineageTag: cb0df13a-a89b-403b-ac0f-a2c4a5a06839
+		summarizeBy: none
+		sourceColumn: ID
+
+	column NAME
+		dataType: string
+		lineageTag: a551a209-91d2-4d20-8f53-94c2e4bb5d45
+		summarizeBy: none
+		sourceColumn: NAME
+
+	column INDUSTRY
+		dataType: string
+		lineageTag: b0982f8d-0fdc-40e0-b965-b546d58a0be6
+		summarizeBy: none
+		sourceColumn: INDUSTRY
+
+	column TYPE
+		dataType: string
+		lineageTag: 1e1d72c5-087f-496d-8034-8c95894b9102
+		summarizeBy: none
+		sourceColumn: TYPE
+
+	column ANNUAL_REVENUE
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 98e8c930-cd27-43e8-b237-6932d2efdcd7
+		summarizeBy: sum
+		sourceColumn: ANNUAL_REVENUE
+
+	column NUMBER_OF_EMPLOYEES
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3b78c40f-788d-4bd5-a971-583fbce0c68f
+		summarizeBy: sum
+		sourceColumn: NUMBER_OF_EMPLOYEES
+
+	column BILLING_CITY
+		dataType: string
+		lineageTag: 30188d0f-646b-45da-8f43-ca13fe802038
+		summarizeBy: none
+		sourceColumn: BILLING_CITY
+
+	column BILLING_COUNTRY
+		dataType: string
+		lineageTag: 930c689d-3214-4576-ad62-7290540a3328
+		summarizeBy: none
+		sourceColumn: BILLING_COUNTRY
+
+	column CREATED_AT_UTC
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: 81cfb638-e8a0-41dd-9d20-8ee0fa5ff99d
+		summarizeBy: none
+		sourceColumn: CREATED_AT_UTC
+
+	column LAST_MODIFIED_AT_UTC
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: 1fdfdc78-52b2-41bc-a52a-65394e37a17b
+		summarizeBy: none
+		sourceColumn: LAST_MODIFIED_AT_UTC
+
+	partition SFDC_ACCOUNT = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases("NRZVPQQ-FV30704.snowflakecomputing.com", "SNOWFLAKE_LEARNING_WH", [Role = "SFDC_REPORT_ROLE"]),
+				    LEARNING_DB_Database = Source{[Name = "LEARNING_DB", Kind = "Database"]}[Data],
+				    DEMO_Schema = LEARNING_DB_Database{[Name = "DEMO", Kind = "Schema"]}[Data],
+				    SFDC_ACCOUNT_Table = DEMO_Schema{[Name = "SFDC_ACCOUNT", Kind = "Table"]}[Data],
+				    Selected = Table.SelectColumns(SFDC_ACCOUNT_Table, {"ID", "NAME", "INDUSTRY", "TYPE", "ANNUAL_REVENUE", "NUMBER_OF_EMPLOYEES", "BILLING_CITY", "BILLING_COUNTRY", "CREATED_AT_UTC", "LAST_MODIFIED_AT_UTC"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"ANNUAL_REVENUE", type number}, {"NUMBER_OF_EMPLOYEES", Int64.Type}, {"CREATED_AT_UTC", type datetime}, {"LAST_MODIFIED_AT_UTC", type datetime}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

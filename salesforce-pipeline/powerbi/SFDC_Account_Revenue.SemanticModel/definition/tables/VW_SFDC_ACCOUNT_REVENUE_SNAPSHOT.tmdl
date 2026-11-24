@@ -1,0 +1,88 @@
+table VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT
+	lineageTag: 4b395287-169c-4007-b2ba-06592eabdfa1
+
+	measure 'Snapshot Revenue' = SUM ( VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT[ANNUAL_REVENUE] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 2b66d961-de0a-40e0-acbb-2979ca131d9c
+
+	measure 'Previous Snapshot Revenue' =
+			VAR CurrentDate = MAX ( VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT[SNAPSHOT_DATE] )
+			VAR PrevDate =
+			    CALCULATE (
+			        MAX ( VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT[SNAPSHOT_DATE] ),
+			        VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT[SNAPSHOT_DATE] < CurrentDate
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( PrevDate ),
+			        CALCULATE (
+			            [Snapshot Revenue],
+			            VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT[SNAPSHOT_DATE] = PrevDate
+			        )
+			    )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: b916b699-0f6a-4fd1-b27f-8a9c91683ef5
+
+	measure 'Revenue Growth %' = DIVIDE ( [Snapshot Revenue] - [Previous Snapshot Revenue], [Previous Snapshot Revenue] )
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 54319a5e-786f-498a-8cba-bd2c1800b507
+
+	column SNAPSHOT_DATE
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: bed35d93-13ca-467d-8f57-07094c2c58c0
+		summarizeBy: none
+		sourceColumn: SNAPSHOT_DATE
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ID
+		dataType: string
+		lineageTag: 570d8304-c3f6-4733-a800-75499e2ad241
+		summarizeBy: none
+		sourceColumn: ID
+
+	column NAME
+		dataType: string
+		lineageTag: 123669d4-da6a-4e43-b8a4-dbf66baa8d12
+		summarizeBy: none
+		sourceColumn: NAME
+
+	column INDUSTRY
+		dataType: string
+		lineageTag: 1530110f-32d5-466f-b319-1ad4330bdde6
+		summarizeBy: none
+		sourceColumn: INDUSTRY
+
+	column BILLING_CITY
+		dataType: string
+		lineageTag: ca9144bf-83ca-4af3-b2d4-44ab423fad2c
+		summarizeBy: none
+		sourceColumn: BILLING_CITY
+
+	column BILLING_COUNTRY
+		dataType: string
+		lineageTag: 03a361a6-5c6b-4178-970b-d7ac31f232e4
+		summarizeBy: none
+		sourceColumn: BILLING_COUNTRY
+
+	column ANNUAL_REVENUE
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 76b18436-444a-4cfc-94e9-817ecc5a2260
+		summarizeBy: sum
+		sourceColumn: ANNUAL_REVENUE
+
+	partition VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases("NRZVPQQ-FV30704.snowflakecomputing.com", "SNOWFLAKE_LEARNING_WH", [Role = "SFDC_REPORT_ROLE"]),
+				    LEARNING_DB_Database = Source{[Name = "LEARNING_DB", Kind = "Database"]}[Data],
+				    DEMO_Schema = LEARNING_DB_Database{[Name = "DEMO", Kind = "Schema"]}[Data],
+				    Snapshot_View = DEMO_Schema{[Name = "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT", Kind = "View"]}[Data],
+				    Selected = Table.SelectColumns(Snapshot_View, {"SNAPSHOT_DATE", "ID", "NAME", "INDUSTRY", "BILLING_CITY", "BILLING_COUNTRY", "ANNUAL_REVENUE"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"SNAPSHOT_DATE", type date}, {"ANNUAL_REVENUE", type number}})
+				in
+				    Typed
+

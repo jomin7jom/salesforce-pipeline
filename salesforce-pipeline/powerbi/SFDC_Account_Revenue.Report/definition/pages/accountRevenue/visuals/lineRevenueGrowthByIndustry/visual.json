@@ -1,0 +1,192 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "lineRevenueGrowthByIndustry",
+  "position": {
+    "x": 650,
+    "y": 370,
+    "z": 3000,
+    "height": 330,
+    "width": 610,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "SNAPSHOT_DATE"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.SNAPSHOT_DATE",
+              "nativeQueryRef": "SNAPSHOT_DATE",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "INDUSTRY"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.INDUSTRY",
+              "nativeQueryRef": "INDUSTRY"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "Revenue Growth %"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.Revenue Growth %",
+              "nativeQueryRef": "Revenue Growth %"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "Snapshot Revenue"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.Snapshot Revenue",
+              "nativeQueryRef": "Snapshot Revenue"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                  }
+                },
+                "Property": "SNAPSHOT_DATE"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue growth by Industry'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9ed758de22b6f65eda66",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+              }
+            },
+            "Property": "SNAPSHOT_DATE"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "260a4ca22d7c50d5255f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+              }
+            },
+            "Property": "INDUSTRY"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "da1738630aa370fb07ed",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+              }
+            },
+            "Property": "Snapshot Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ea59e17afc7a460b9e06",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+              }
+            },
+            "Property": "Revenue Growth %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

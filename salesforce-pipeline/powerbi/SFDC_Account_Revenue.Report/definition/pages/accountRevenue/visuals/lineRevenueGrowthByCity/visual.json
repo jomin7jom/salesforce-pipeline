@@ -1,0 +1,132 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "lineRevenueGrowthByCity",
+  "position": {
+    "x": 20,
+    "y": 370,
+    "z": 2000,
+    "width": 610,
+    "height": 330,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "SNAPSHOT_DATE"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.SNAPSHOT_DATE",
+              "nativeQueryRef": "SNAPSHOT_DATE",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "BILLING_CITY"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.BILLING_CITY",
+              "nativeQueryRef": "BILLING_CITY"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "Snapshot Revenue"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.Snapshot Revenue",
+              "nativeQueryRef": "Snapshot Revenue"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                    }
+                  },
+                  "Property": "Revenue Growth %"
+                }
+              },
+              "queryRef": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT.Revenue Growth %",
+              "nativeQueryRef": "Revenue Growth %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT"
+                  }
+                },
+                "Property": "SNAPSHOT_DATE"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue growth by City'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
