@@ -109,4 +109,5 @@ Run `salesforce/02_create_daily_opportunities.apex` **before 10:15 PT** on weekd
 later are picked up by the next weekday's run. Every run pulls all `SNOWPIPE-TEST-OPP-%` records (a full
 snapshot), and the Snowflake merge only applies rows whose `LastModifiedDate` is newer.
 
-Deleted Opportunities are not handled: a record deleted in Salesforce stays in `SFDC_OPPORTUNITY`.
+Deleted Opportunities are removed from `SFDC_OPPORTUNITY` by the merge, as long as the next run happens while
+they're still in the Salesforce recycle bin (about 15 days). See "Deleted records" in the README.

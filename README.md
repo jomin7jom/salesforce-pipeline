@@ -66,6 +66,15 @@ Merge_To_Target                       CALL SP_MERGE_SFDC_ACCOUNT()  (RAW stream 
 ```
 Snowflake access: `LS_SNOWFLAKE` signs in as `SFDC_ADF_SVC`, using the password from Key Vault `kv-jominslearning-sfdc`.
 
+### Deleted records
+Both pipelines pull with `includeDeletedObjects = true` and select `IsDeleted`, so records in the Salesforce
+recycle bin arrive flagged as deleted. The merge procedures then delete those rows from `SFDC_ACCOUNT` and
+`SFDC_OPPORTUNITY`, and never insert one. Deleting an Account in Salesforce also deletes its Opportunities,
+so both tables stay in step. The revenue history view only shows accounts still in `SFDC_ACCOUNT`.
+
+Limit: the recycle bin keeps records for about 15 days. A record that is hard-deleted or purged before the
+next run is never reported and has to be removed by hand. Upgrade steps and checks: `snowflake/13_handle_deletes.sql`.
+
 ## Run order
 
 1. `azure/01_azure_setup.md`: container, queue, Event Grid subscription on `jominsdevadls`.
