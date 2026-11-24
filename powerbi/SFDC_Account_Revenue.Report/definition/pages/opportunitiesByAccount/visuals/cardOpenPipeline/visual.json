@@ -1,0 +1,37 @@
+{
+    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+    "name":  "cardOpenPipeline",
+    "position":  {
+                     "x":  1080,
+                     "y":  20,
+                     "z":  4,
+                     "width":  180,
+                     "height":  70,
+                     "tabOrder":  4
+                 },
+    "visual":  {
+                   "visualType":  "card",
+                   "query":  {
+                                 "queryState":  {
+                                                    "Values":  {
+                                                                   "projections":  [
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Open Pipeline Amount"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Open Pipeline Amount",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Open Pipeline Amount"
+                                                                                       }
+                                                                                   ]
+                                                               }
+                                                }
+                             }
+               }
+}

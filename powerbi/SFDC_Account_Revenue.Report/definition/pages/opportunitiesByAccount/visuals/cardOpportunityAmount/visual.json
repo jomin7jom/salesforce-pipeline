@@ -1,0 +1,37 @@
+{
+    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+    "name":  "cardOpportunityAmount",
+    "position":  {
+                     "x":  660,
+                     "y":  20,
+                     "z":  2,
+                     "width":  190,
+                     "height":  70,
+                     "tabOrder":  2
+                 },
+    "visual":  {
+                   "visualType":  "card",
+                   "query":  {
+                                 "queryState":  {
+                                                    "Values":  {
+                                                                   "projections":  [
+                                                                                       {
+                                                                                           "field":  {
+                                                                                                         "Measure":  {
+                                                                                                                         "Expression":  {
+                                                                                                                                            "SourceRef":  {
+                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
+                                                                                                                                                          }
+                                                                                                                                        },
+                                                                                                                         "Property":  "Opportunity Amount"
+                                                                                                                     }
+                                                                                                     },
+                                                                                           "nativeQueryRef":  "Opportunity Amount",
+                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Opportunity Amount"
+                                                                                       }
+                                                                                   ]
+                                                               }
+                                                }
+                             }
+               }
+}
