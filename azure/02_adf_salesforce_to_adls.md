@@ -41,7 +41,7 @@ parameter to pull all Accounts later.
 ```powershell
 $az  = "C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd"
 $f   = "https://management.azure.com/subscriptions/104de54b-16c7-4ae0-b509-73182439e483/resourceGroups/jominslearning/providers/Microsoft.DataFactory/factories/jominsdevadf"
-$dir = "C:\Users\jomin\projects\salesforce-pipeline\azure\adf"
+$dir = (Resolve-Path ".\azure\adf").Path   # run from the repo root
 
 # Datasets first, because the pipeline references them
 & $az rest --method put --url "$f/datasets/DS_SFDC_ACCOUNT?api-version=2018-06-01"         --body "@$dir\DS_SFDC_ACCOUNT.json"
