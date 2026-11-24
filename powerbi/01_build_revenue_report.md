@@ -22,7 +22,7 @@ line chart (growth over time).
 
 "Revenue" here is the Salesforce **Account.AnnualRevenue** field, the account's stated annual
 revenue. It is not bookings or opportunity amounts. A snapshot date is the Pacific date a
-pipeline run loaded the data (weekdays after 10:00 PT).
+pipeline run loaded the data (weekdays after the 6:45 PT Account run).
 
 ## 1. Get the password
 Azure portal > **Key vaults** > `kv-jominslearning-sfdc` > **Objects > Secrets** >
@@ -112,7 +112,7 @@ dimension to be added in Snowflake.
    Choose authentication **Basic**, user `SFDC_REPORT_SVC`, and the password from Key Vault.
    No gateway is needed, because Snowflake is a cloud source.
 3. Under **Scheduled refresh**, turn it on, choose time zone **(UTC-08:00) Pacific Time**, refresh
-   **Weekly** on Mon–Fri at **11:00 AM**. That's after the 10:00 ADF run, which usually finishes in under 5 minutes.
+   **Weekly** on Mon–Fri at **11:00 AM**. That's after the 6:45 Account and 10:15 Opportunity ADF runs, which usually finish in under 5 minutes.
 
 ## What you'll see now vs later
 - **Today:** the bar charts show 5 cities and 5 industries, one account each, totalling $3.75M.
