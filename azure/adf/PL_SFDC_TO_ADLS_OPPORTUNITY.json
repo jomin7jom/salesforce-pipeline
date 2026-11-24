@@ -4,7 +4,7 @@
     "parameters": {
       "soqlQuery": {
         "type": "string",
-        "defaultValue": "SELECT Id, Name, AccountId, Amount, TotalOpportunityQuantity, CloseDate, StageName, Probability, Type, LeadSource, IsClosed, IsWon, Description, CreatedDate, LastModifiedDate FROM Opportunity WHERE Name LIKE 'SNOWPIPE-TEST-OPP-%'"
+        "defaultValue": "SELECT Id, Name, AccountId, Amount, TotalOpportunityQuantity, CloseDate, StageName, Probability, Type, LeadSource, IsClosed, IsWon, Description, IsDeleted, CreatedDate, LastModifiedDate FROM Opportunity WHERE Name LIKE 'SNOWPIPE-TEST-OPP-%'"
       }
     },
     "activities": [
@@ -33,7 +33,7 @@
           "source": {
             "type": "SalesforceV2Source",
             "SOQLQuery": { "value": "@pipeline().parameters.soqlQuery", "type": "Expression" },
-            "includeDeletedObjects": false
+            "includeDeletedObjects": true
           },
           "sink": {
             "type": "ParquetSink",

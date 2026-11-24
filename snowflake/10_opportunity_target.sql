@@ -39,9 +39,13 @@ CREATE STREAM IF NOT EXISTS SFDC_OPPORTUNITY_RAW_STREAM
   SHOW_INITIAL_ROWS = TRUE
   COMMENT = 'New rows in SFDC_OPPORTUNITY_RAW not yet merged into SFDC_OPPORTUNITY';
 
--- 3. Incremental MERGE procedure: dedupe the new batch, upsert only if the record is newer.
+-- 3. Incremental MERGE procedure: dedupe the new batch, upsert only if the record is newer,
+--    and delete target rows that Salesforce reports as deleted. ADF pulls deleted records with
+--    includeDeletedObjects = true (they come from the Salesforce recycle bin, kept about 15 days).
+--    Deleting an Account in Salesforce also deletes its Opportunities, so both tables stay in step.
 --    Reading the stream inside the MERGE advances it, so each RAW row is processed once.
 CREATE OR REPLACE PROCEDURE SP_MERGE_SFDC_OPPORTUNITY()
+  COPY GRANTS                                   -- keep SFDC_ADF_ROLE's USAGE when replaced
   RETURNS VARIANT
   LANGUAGE SQL
   COMMENT = 'Incremental merge SFDC_OPPORTUNITY_RAW_STREAM -> SFDC_OPPORTUNITY. Called by ADF after the Salesforce copy.'
@@ -51,6 +55,7 @@ $$
 DECLARE
   rows_inserted INTEGER DEFAULT 0;
   rows_updated  INTEGER DEFAULT 0;
+  rows_deleted  INTEGER DEFAULT 0;
 BEGIN
   MERGE INTO LEARNING_DB.DEMO.SFDC_OPPORTUNITY t
   USING (
@@ -60,11 +65,15 @@ BEGIN
            TO_DATE(CLOSEDATE)                     AS CLOSE_DATE,
            STAGENAME, PROBABILITY::NUMBER(5,2)    AS PROBABILITY,
            TYPE, LEADSOURCE, ISCLOSED::BOOLEAN    AS IS_CLOSED, ISWON::BOOLEAN AS IS_WON,
-           DESCRIPTION, CREATEDDATE, LASTMODIFIEDDATE, _SRC_FILE, _LOADED_AT
+           DESCRIPTION, CREATEDDATE, LASTMODIFIEDDATE,
+           COALESCE(ISDELETED, FALSE) AS IS_DELETED,   -- NULL in rows loaded before deletes were pulled
+           _SRC_FILE, _LOADED_AT
     FROM LEARNING_DB.DEMO.SFDC_OPPORTUNITY_RAW_STREAM
+    -- A deleted record can keep the same LastModifiedDate, so the latest load breaks the tie
     QUALIFY ROW_NUMBER() OVER (PARTITION BY ID ORDER BY LASTMODIFIEDDATE DESC, _LOADED_AT DESC) = 1
   ) s
   ON t.ID = s.ID
+  WHEN MATCHED AND s.IS_DELETED THEN DELETE                           -- deleted in Salesforce
   WHEN MATCHED AND s.LASTMODIFIEDDATE > t.LAST_MODIFIED_AT_UTC THEN UPDATE SET
     t.NAME = s.NAME, t.ACCOUNT_ID = s.ACCOUNTID, t.AMOUNT = s.AMOUNT, t.QUANTITY = s.QUANTITY,
     t.CLOSE_DATE = s.CLOSE_DATE, t.STAGE_NAME = s.STAGENAME, t.PROBABILITY = s.PROBABILITY,
@@ -72,7 +81,7 @@ BEGIN
     t.DESCRIPTION = s.DESCRIPTION, t.CREATED_AT_UTC = s.CREATEDDATE,
     t.LAST_MODIFIED_AT_UTC = s.LASTMODIFIEDDATE,
     t._SRC_FILE = s._SRC_FILE, t._LOADED_AT = s._LOADED_AT, t._MERGED_AT = CURRENT_TIMESTAMP()
-  WHEN NOT MATCHED THEN INSERT (
+  WHEN NOT MATCHED AND NOT s.IS_DELETED THEN INSERT (                 -- never insert a deleted record
     ID, NAME, ACCOUNT_ID, AMOUNT, QUANTITY, CLOSE_DATE, STAGE_NAME, PROBABILITY, TYPE, LEAD_SOURCE,
     IS_CLOSED, IS_WON, DESCRIPTION, CREATED_AT_UTC, LAST_MODIFIED_AT_UTC, _SRC_FILE, _LOADED_AT, _MERGED_AT
   ) VALUES (
@@ -80,14 +89,15 @@ BEGIN
     s.IS_CLOSED, s.IS_WON, s.DESCRIPTION, s.CREATEDDATE, s.LASTMODIFIEDDATE, s._SRC_FILE, s._LOADED_AT, CURRENT_TIMESTAMP()
   );
 
-  SELECT "number of rows inserted", "number of rows updated"
-    INTO :rows_inserted, :rows_updated
+  SELECT "number of rows inserted", "number of rows updated", "number of rows deleted"
+    INTO :rows_inserted, :rows_updated, :rows_deleted
     FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()));
 
   RETURN OBJECT_CONSTRUCT(
     'status',        'SUCCEEDED',
     'rows_inserted', rows_inserted,
     'rows_updated',  rows_updated,
+    'rows_deleted',  rows_deleted,
     'target_rows',   (SELECT COUNT(*) FROM LEARNING_DB.DEMO.SFDC_OPPORTUNITY),
     'merged_at',     CURRENT_TIMESTAMP());
 END;

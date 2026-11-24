@@ -4,7 +4,7 @@
     "parameters": {
       "soqlQuery": {
         "type": "string",
-        "defaultValue": "SELECT Id, Name, Industry, Type, AnnualRevenue, NumberOfEmployees, BillingCity, BillingCountry, Description, CreatedDate, LastModifiedDate FROM Account WHERE Name LIKE 'SNOWPIPE-TEST-%'"
+        "defaultValue": "SELECT Id, Name, Industry, Type, AnnualRevenue, NumberOfEmployees, BillingCity, BillingCountry, Description, IsDeleted, CreatedDate, LastModifiedDate FROM Account WHERE Name LIKE 'SNOWPIPE-TEST-%'"
       }
     },
     "activities": [
@@ -33,7 +33,7 @@
           "source": {
             "type": "SalesforceV2Source",
             "SOQLQuery": { "value": "@pipeline().parameters.soqlQuery", "type": "Expression" },
-            "includeDeletedObjects": false
+            "includeDeletedObjects": true
           },
           "sink": {
             "type": "ParquetSink",
