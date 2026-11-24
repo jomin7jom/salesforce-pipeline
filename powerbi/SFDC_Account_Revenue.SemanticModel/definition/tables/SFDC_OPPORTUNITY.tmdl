@@ -5,6 +5,8 @@ table SFDC_OPPORTUNITY
 		formatString: \$#,0;(\$#,0);\$#,0
 		lineageTag: 8e7c895b-3b49-4cc2-8942-5ccc4d299d87
 
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
 	measure 'Opportunity Count' = COUNTROWS ( SFDC_OPPORTUNITY )
 		formatString: #,0
 		lineageTag: cb063120-cdc9-42e9-a763-fbd068e1f1f1
@@ -12,6 +14,8 @@ table SFDC_OPPORTUNITY
 	measure 'Open Pipeline Amount' = CALCULATE ( [Opportunity Amount], SFDC_OPPORTUNITY[IS_CLOSED] = FALSE () )
 		formatString: \$#,0;(\$#,0);\$#,0
 		lineageTag: efb53ac8-eb93-4442-a3fb-c568c9a7c5df
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure 'Won Amount' = CALCULATE ( [Opportunity Amount], SFDC_OPPORTUNITY[IS_WON] = TRUE () )
 		formatString: \$#,0;(\$#,0);\$#,0
