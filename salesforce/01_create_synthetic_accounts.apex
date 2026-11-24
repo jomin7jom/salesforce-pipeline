@@ -1,4 +1,4 @@
-// Creates 5 synthetic Account records for the Snowpipe pipeline test.
+// Creates 7 synthetic Account records for the Snowpipe pipeline test.
 // Run in Salesforce: Setup gear > Developer Console > Debug > Open Execute Anonymous Window
 // Safe to re-run: skips names that already exist.
 String prefix = 'SNOWPIPE-TEST-';
@@ -21,8 +21,8 @@ for (Integer i = 1; i <= industries.size(); i++) {
         Name              = name,
         Industry          = industries[i - 1],
         Type              = 'Prospect',
-        AnnualRevenue     = 250000 * i,
-        NumberOfEmployees = 25 * i,
+        AnnualRevenue     = 450000 * i,
+        NumberOfEmployees = 45 * i,
         BillingCity       = cities[i - 1],
         BillingStateCode   = states[i - 1],
         BillingCountryCode = 'US',
