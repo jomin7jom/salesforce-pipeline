@@ -26,7 +26,7 @@ easy to lose or double-load data. Writing a new file per run avoids that.
 ## Prerequisite
 The `salesforce-raw` container must exist (`azure/01_azure_setup.md` step 2).
 
-## Step 1: Create 5 synthetic Accounts in Salesforce
+## Step 1: Create 7 synthetic Accounts in Salesforce
 1. Log in to the dev org, then open the Setup gear > **Developer Console**.
 2. Go to **Debug > Open Execute Anonymous Window**, paste
    `salesforce/01_create_synthetic_accounts.apex`, and click **Execute**.

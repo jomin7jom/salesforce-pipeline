@@ -78,7 +78,7 @@ next run is never reported and has to be removed by hand. Upgrade steps and chec
 ## Run order
 
 1. `azure/01_azure_setup.md`: container, queue, Event Grid subscription on `jominsdevadls`.
-2. `salesforce/01_create_synthetic_accounts.apex`: 5 synthetic Accounts (`SNOWPIPE-TEST-001..005`).
+2. `salesforce/01_create_synthetic_accounts.apex`: 7 synthetic Accounts (`SNOWPIPE-TEST-001..007`).
 3. `azure/02_adf_salesforce_to_adls.md`: deploy and run `PL_SFDC_TO_ADLS_ACCOUNT`. The first
    Parquet file lands in `salesforce-raw/account/`.
 4. `snowflake/01_integrations.sql`: storage and notification integrations.
