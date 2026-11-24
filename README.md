@@ -57,7 +57,7 @@ Salesforce (Account) --ADF jominsdevadf--> ADLS jominsdevadls/salesforce-raw/acc
 
 ## Orchestration (ADF `PL_SFDC_TO_ADLS_ACCOUNT`)
 
-Trigger `TR_SFDC_ACCOUNT_WEEKDAYS_10AM_PT`: Mon-Fri 10:00 Pacific (follows PST/PDT).
+Trigger `TR_SFDC_ACCOUNT_WEEKDAYS_6 45AM_PT` (the name contains a space): Mon-Fri 6:45 Pacific (follows PST/PDT).
 
 ```
 Copy_Account_To_ADLS                  Salesforce SOQL -> salesforce-raw/account/yyyy/MM/dd/account_<ts>_<runId>.parquet
@@ -94,18 +94,18 @@ To run it locally before pushing, from the repo root: `python scripts/validate_r
 
 ## Daily operations
 
-The pipeline runs Mon–Fri at 10:00 Pacific (Account) and 10:15 Pacific (Opportunity). Power BI refreshes at 11:00 Pacific.
+The pipeline runs Mon–Fri at 6:45 Pacific (Account) and 10:15 Pacific (Opportunity). Power BI refreshes at 11:00 Pacific.
 To add new test Opportunities, run `salesforce/02_create_daily_opportunities.apex` before 10:15 PT.
 
 | To… | Go to |
 |---|---|
 | See today's pipeline run | ADF Studio (`jominsdevadf`) > **Monitor > Pipeline runs** > `PL_SFDC_TO_ADLS_ACCOUNT`. `Check_Snowpipe_Load` and `Merge_To_Target` outputs show rows loaded and merged |
-| See trigger firings | ADF Studio > **Monitor > Trigger runs** > `TR_SFDC_ACCOUNT_WEEKDAYS_10AM_PT` |
+| See trigger firings | ADF Studio > **Monitor > Trigger runs** > `TR_SFDC_ACCOUNT_WEEKDAYS_6 45AM_PT` |
 | See the "file arrived" events | Azure portal > `jominsdevadls` > **Events** > `snowpipe-sfdc-blob-created` > **Metrics** |
 | See Snowpipe loads | Snowsight > Catalog > Database Explorer > `LEARNING_DB.DEMO.SFDC_ACCOUNT_RAW` > **Copy History**, or run `snowflake/04_validate.sql` |
 | See Power BI refreshes | app.powerbi.com > My workspace > `SFDC_Account_Revenue` (semantic model) > **Settings > Refresh history** |
 | Rerun now | ADF Studio > Author > `PL_SFDC_TO_ADLS_ACCOUNT` > **Add trigger > Trigger now** |
-| Pause the schedule | ADF Studio > **Manage > Triggers** > `TR_SFDC_ACCOUNT_WEEKDAYS_10AM_PT` > **Stop** |
+| Pause the schedule | ADF Studio > **Manage > Triggers** > `TR_SFDC_ACCOUNT_WEEKDAYS_6 45AM_PT` > **Stop** |
 | Rotate a Snowflake password | Add a new version of the Key Vault secret, then `ALTER USER SFDC_ADF_SVC` (or `SFDC_REPORT_SVC`) `SET PASSWORD = '…'`. ADF reads the new version automatically; update the Power BI data source credentials by hand |
 
 If a run fails at `Fail_Snowpipe_Load`, its error message includes Snowpipe's first error. Fix the

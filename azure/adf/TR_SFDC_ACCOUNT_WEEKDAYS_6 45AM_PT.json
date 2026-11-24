@@ -1,6 +1,6 @@
 {
   "properties": {
-    "description": "Run PL_SFDC_TO_ADLS_ACCOUNT Mon-Fri 10:00 Pacific (Windows zone 'Pacific Standard Time' follows PST/PDT)",
+    "description": "Run PL_SFDC_TO_ADLS_ACCOUNT Mon-Fri 6:45 AM Pacific (Windows zone 'Pacific Standard Time' follows PST/PDT)",
     "type": "ScheduleTrigger",
     "typeProperties": {
       "recurrence": {
@@ -10,8 +10,8 @@
         "timeZone": "Pacific Standard Time",
         "schedule": {
           "weekDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
-          "hours": [ 10 ],
-          "minutes": [ 0 ]
+          "hours": [ 6 ],
+          "minutes": [ 45 ]
         }
       }
     },

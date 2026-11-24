@@ -18,7 +18,7 @@ Account container, its Event Grid subscription, pipeline and trigger are not cha
 | `DS_SFDC_OPPORTUNITY` | Salesforce `Opportunity` object |
 | `DS_ADLS_SFDC_OPPORTUNITY_PARQUET` | Parquet (snappy) in `salesforce-opportunity-raw` |
 | `PL_SFDC_TO_ADLS_OPPORTUNITY` | Copy -> wait for Snowpipe -> `CALL SP_MERGE_SFDC_OPPORTUNITY()` |
-| `TR_SFDC_OPPORTUNITY_WEEKDAYS_1015AM_PT` | Mon–Fri 10:15 Pacific, 15 minutes after the Account run |
+| `TR_SFDC_OPPORTUNITY_WEEKDAYS_1015AM_PT` | Mon–Fri 10:15 Pacific, after the 6:45 Account run |
 
 ## Run order (whole Opportunity build)
 

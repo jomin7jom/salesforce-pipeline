@@ -1,6 +1,6 @@
 {
   "properties": {
-    "description": "Run PL_SFDC_TO_ADLS_OPPORTUNITY Mon-Fri 10:15 Pacific, after the 10:00 Account run (Windows zone 'Pacific Standard Time' follows PST/PDT)",
+    "description": "Run PL_SFDC_TO_ADLS_OPPORTUNITY Mon-Fri 10:15 Pacific, after the 6:45 Account run (Windows zone 'Pacific Standard Time' follows PST/PDT)",
     "type": "ScheduleTrigger",
     "typeProperties": {
       "recurrence": {
