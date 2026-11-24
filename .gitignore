@@ -1,0 +1,15 @@
+# Power BI Desktop local files (cache.abf holds the imported data; localSettings is per-user)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Keys and local secrets: credentials live in Key Vault kv-jominslearning-sfdc, never in the repo
+*.pem
+*.p8
+*.key
+.env
+*.tmp
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+.vscode/
