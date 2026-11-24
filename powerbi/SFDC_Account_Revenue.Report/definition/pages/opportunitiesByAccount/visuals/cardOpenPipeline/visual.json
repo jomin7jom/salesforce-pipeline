@@ -1,37 +1,52 @@
 {
-    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-    "name":  "cardOpenPipeline",
-    "position":  {
-                     "x":  1080,
-                     "y":  20,
-                     "z":  4,
-                     "width":  180,
-                     "height":  70,
-                     "tabOrder":  4
-                 },
-    "visual":  {
-                   "visualType":  "card",
-                   "query":  {
-                                 "queryState":  {
-                                                    "Values":  {
-                                                                   "projections":  [
-                                                                                       {
-                                                                                           "field":  {
-                                                                                                         "Measure":  {
-                                                                                                                         "Expression":  {
-                                                                                                                                            "SourceRef":  {
-                                                                                                                                                              "Entity":  "SFDC_OPPORTUNITY"
-                                                                                                                                                          }
-                                                                                                                                        },
-                                                                                                                         "Property":  "Open Pipeline Amount"
-                                                                                                                     }
-                                                                                                     },
-                                                                                           "nativeQueryRef":  "Open Pipeline Amount",
-                                                                                           "queryRef":  "SFDC_OPPORTUNITY.Open Pipeline Amount"
-                                                                                       }
-                                                                                   ]
-                                                               }
-                                                }
-                             }
-               }
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "cardOpenPipeline",
+  "position": {
+    "x": 1080.2356247604719,
+    "y": 19.767497977317568,
+    "z": 4,
+    "height": 82.558373905267487,
+    "width": 180.23306979318957,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SFDC_OPPORTUNITY"
+                    }
+                  },
+                  "Property": "Open Pipeline Amount"
+                }
+              },
+              "queryRef": "SFDC_OPPORTUNITY.Open Pipeline Amount",
+              "nativeQueryRef": "Open Pipeline Amount"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
 }

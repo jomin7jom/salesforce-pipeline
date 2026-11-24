@@ -1,96 +1,96 @@
 {
-    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-    "name":  "barOpportunityAmountByAccount",
-    "position":  {
-                     "x":  20,
-                     "y":  110,
-                     "z":  5,
-                     "width":  610,
-                     "height":  590,
-                     "tabOrder":  5
-                 },
-    "visual":  {
-                   "visualType":  "clusteredBarChart",
-                   "query":  {
-                                 "queryState":  {
-                                                    "Category":  {
-                                                                     "projections":  [
-                                                                                         {
-                                                                                             "field":  {
-                                                                                                           "Column":  {
-                                                                                                                          "Expression":  {
-                                                                                                                                             "SourceRef":  {
-                                                                                                                                                               "Entity":  "SFDC_ACCOUNT"
-                                                                                                                                                           }
-                                                                                                                                         },
-                                                                                                                          "Property":  "NAME"
-                                                                                                                      }
-                                                                                                       },
-                                                                                             "nativeQueryRef":  "NAME",
-                                                                                             "active":  true,
-                                                                                             "queryRef":  "SFDC_ACCOUNT.NAME"
-                                                                                         }
-                                                                                     ]
-                                                                 },
-                                                    "Y":  {
-                                                              "projections":  [
-                                                                                  {
-                                                                                      "field":  {
-                                                                                                    "Measure":  {
-                                                                                                                    "Expression":  {
-                                                                                                                                       "SourceRef":  {
-                                                                                                                                                         "Entity":  "SFDC_OPPORTUNITY"
-                                                                                                                                                     }
-                                                                                                                                   },
-                                                                                                                    "Property":  "Opportunity Amount"
-                                                                                                                }
-                                                                                                },
-                                                                                      "nativeQueryRef":  "Opportunity Amount",
-                                                                                      "queryRef":  "SFDC_OPPORTUNITY.Opportunity Amount"
-                                                                                  }
-                                                                              ]
-                                                          }
-                                                },
-                                 "sortDefinition":  {
-                                                        "sort":  [
-                                                                     {
-                                                                         "field":  {
-                                                                                       "Measure":  {
-                                                                                                       "Expression":  {
-                                                                                                                          "SourceRef":  {
-                                                                                                                                            "Entity":  "SFDC_OPPORTUNITY"
-                                                                                                                                        }
-                                                                                                                      },
-                                                                                                       "Property":  "Opportunity Amount"
-                                                                                                   }
-                                                                                   },
-                                                                         "direction":  "Descending"
-                                                                     }
-                                                                 ],
-                                                        "isDefaultSort":  true
-                                                    }
-                             },
-                   "visualContainerObjects":  {
-                                                  "title":  [
-                                                                {
-                                                                    "properties":  {
-                                                                                       "text":  {
-                                                                                                    "expr":  {
-                                                                                                                 "Literal":  {
-                                                                                                                                 "Value":  "'Opportunity Amount by Account'"
-                                                                                                                             }
-                                                                                                             }
-                                                                                                },
-                                                                                       "show":  {
-                                                                                                    "expr":  {
-                                                                                                                 "Literal":  {
-                                                                                                                                 "Value":  "true"
-                                                                                                                             }
-                                                                                                             }
-                                                                                                }
-                                                                                   }
-                                                                }
-                                                            ]
-                                              }
-               }
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "barOpportunityAmountByAccount",
+  "position": {
+    "x": 19.767497977317568,
+    "y": 118.60498786390541,
+    "z": 5,
+    "height": 581.39699933286965,
+    "width": 610.46684929951311,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SFDC_ACCOUNT"
+                    }
+                  },
+                  "Property": "NAME"
+                }
+              },
+              "queryRef": "SFDC_ACCOUNT.NAME",
+              "nativeQueryRef": "NAME",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SFDC_OPPORTUNITY"
+                    }
+                  },
+                  "Property": "Opportunity Amount"
+                }
+              },
+              "queryRef": "SFDC_OPPORTUNITY.Opportunity Amount",
+              "nativeQueryRef": "Opportunity Amount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "SFDC_OPPORTUNITY"
+                  }
+                },
+                "Property": "Opportunity Amount"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Opportunity Amount by Account'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
 }

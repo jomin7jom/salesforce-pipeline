@@ -1,75 +1,75 @@
 {
-    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-    "name":  "slicerIndustry",
-    "position":  {
-                     "x":  340,
-                     "y":  20,
-                     "z":  1,
-                     "width":  300,
-                     "height":  70,
-                     "tabOrder":  1
-                 },
-    "visual":  {
-                   "visualType":  "slicer",
-                   "query":  {
-                                 "queryState":  {
-                                                    "Values":  {
-                                                                   "projections":  [
-                                                                                       {
-                                                                                           "field":  {
-                                                                                                         "Column":  {
-                                                                                                                        "Expression":  {
-                                                                                                                                           "SourceRef":  {
-                                                                                                                                                             "Entity":  "SFDC_ACCOUNT"
-                                                                                                                                                         }
-                                                                                                                                       },
-                                                                                                                        "Property":  "INDUSTRY"
-                                                                                                                    }
-                                                                                                     },
-                                                                                           "nativeQueryRef":  "INDUSTRY",
-                                                                                           "active":  true,
-                                                                                           "queryRef":  "SFDC_ACCOUNT.INDUSTRY"
-                                                                                       }
-                                                                                   ]
-                                                               }
-                                                }
-                             },
-                   "objects":  {
-                                   "data":  [
-                                                {
-                                                    "properties":  {
-                                                                       "mode":  {
-                                                                                    "expr":  {
-                                                                                                 "Literal":  {
-                                                                                                                 "Value":  "'Dropdown'"
-                                                                                                             }
-                                                                                             }
-                                                                                }
-                                                                   }
-                                                }
-                                            ]
-                               },
-                   "visualContainerObjects":  {
-                                                  "title":  [
-                                                                {
-                                                                    "properties":  {
-                                                                                       "text":  {
-                                                                                                    "expr":  {
-                                                                                                                 "Literal":  {
-                                                                                                                                 "Value":  "'Industry'"
-                                                                                                                             }
-                                                                                                             }
-                                                                                                },
-                                                                                       "show":  {
-                                                                                                    "expr":  {
-                                                                                                                 "Literal":  {
-                                                                                                                                 "Value":  "true"
-                                                                                                                             }
-                                                                                                             }
-                                                                                                }
-                                                                                   }
-                                                                }
-                                                            ]
-                                              }
-               }
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "slicerIndustry",
+  "position": {
+    "x": 340,
+    "y": 20,
+    "z": 1,
+    "width": 300,
+    "height": 70,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SFDC_ACCOUNT"
+                    }
+                  },
+                  "Property": "INDUSTRY"
+                }
+              },
+              "nativeQueryRef": "INDUSTRY",
+              "active": true,
+              "queryRef": "SFDC_ACCOUNT.INDUSTRY"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Industry'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
 }
