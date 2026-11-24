@@ -9,6 +9,10 @@
 .env
 *.tmp
 
+# Python byproducts (from running scripts/validate_repo.py locally)
+__pycache__/
+*.pyc
+
 # OS / editor noise
 Thumbs.db
 .DS_Store

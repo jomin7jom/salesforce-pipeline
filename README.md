@@ -67,6 +67,16 @@ Snowflake access: `LS_SNOWFLAKE` signs in as `SFDC_ADF_SVC`, using the password 
 
 Run a script with: `snow sql -c dev_snowflake -f snowflake/01_integrations.sql`
 
+## Repository checks
+
+Every pull request into `main` runs `.github/workflows/validate.yml`, which runs
+`scripts/validate_repo.py`. It checks three things:
+- JSON / Power BI project files parse;
+- no Power BI cache, local settings or key files are committed;
+- no hard-coded passwords or keys are present.
+
+To run it locally before pushing, from the repo root: `python scripts/validate_repo.py`
+
 ## Daily operations
 
 The pipeline runs Mon–Fri at 10:00 Pacific. Power BI refreshes at 11:00 Pacific.
