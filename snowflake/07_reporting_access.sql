@@ -8,13 +8,19 @@ USE SCHEMA LEARNING_DB.DEMO;
 -- Revenue history: AnnualRevenue of every account as of each snapshot date (= Pacific date of a load).
 -- Built from SFDC_ACCOUNT_RAW, which keeps every pull. An account missing from a day's pull
 -- (e.g. after switching to incremental SOQL) carries its last known value forward.
+-- Only accounts that are still in SFDC_ACCOUNT are included, so an account removed from the
+-- reporting table (e.g. deleted and recreated in Salesforce with a new Id) drops out of every
+-- snapshot, and the lines agree with the bar charts.
+-- COPY GRANTS keeps SFDC_REPORT_ROLE's SELECT when the view is replaced.
 CREATE OR REPLACE VIEW VW_SFDC_ACCOUNT_REVENUE_SNAPSHOT
-  COMMENT = 'Power BI: AnnualRevenue per account per snapshot date (Pacific), carried forward between changes'
+  COPY GRANTS
+  COMMENT = 'Power BI: AnnualRevenue per current account per snapshot date (Pacific), carried forward between changes'
 AS
 WITH daily AS (
   SELECT ID, NAME, INDUSTRY, BILLINGCITY, BILLINGCOUNTRY, ANNUALREVENUE,
          TO_DATE(CONVERT_TIMEZONE('America/Los_Angeles', _LOADED_AT)) AS SNAPSHOT_DATE
   FROM SFDC_ACCOUNT_RAW
+  WHERE ID IN (SELECT ID FROM SFDC_ACCOUNT)
   QUALIFY ROW_NUMBER() OVER (
     PARTITION BY ID, TO_DATE(CONVERT_TIMEZONE('America/Los_Angeles', _LOADED_AT))
     ORDER BY LASTMODIFIEDDATE DESC, _LOADED_AT DESC) = 1
